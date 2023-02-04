@@ -1,70 +1,113 @@
-# Getting Started with Create React App
+## Why Redux?
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img src="./public/assets/README-img-1.png" alt="Noraml React Data flow using Prop Drilling" width="500px" />
+<p>The data in React always flows from parent to child component which makes it unidirectional</p>
+<br/>
 
-## Available Scripts
+<img src="./public/assets/README-img-2.png" alt="Using Context API and useContext" width="500px" />
+<p>Using React Context API and useContext hook for passing the data from provider to consumer.</p>
+<br/>
 
-In the project directory, you can run:
 
-### `npm start`
+<img src="./public/assets/README-img-3.png" alt="How Redux solves the problem" width="500px" />
+<p>Using React Redux for passing data from centralised store to individual components.</p>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## What is Redux
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Redux is a pattern and library for managing and updating application state using events called **actions**. It serves as a centeralised store for state that needs to be used across the entire applicationm, with rules ensuring that the state can only be updated in a **predictable** fashion.
 
-### `npm test`
+## Redux Main Topics
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Actions(What to do)
+plain JavaScript object that describes an event that has occurred in the application, such as a user clicking a button.
 
-### `npm run build`
+### Reducer(How to do)
+pure function that takes the current state and an action as inputs, and returns a new state. It is responsible for updating the state based on the action.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Store(Object which holds the state of the app)
+centralized container that holds the entire application's state.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Functions associated with store
+createStore(), dispatch(action), getState()
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
+## Redux Data flow
 
-### `npm run eject`
+![Data flow of React](./public/assets/README-img-4.gif)
+<p align="center"><a href="https://redux.js.org/tutorials/fundamentals/part-1-overview">A broad overview of Redux Data flow</a></p>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<br/><br/>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# REDUX BASICS:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# 1. Action (Pure Object)
+Actions are plain JavaScript **objects** that have a type field. Actions only tell **what to do**, but they don't tell how to do.
 
-## Learn More
+E.g:
+```javascript
+return {
+    type: 'INCREMENET'
+    payload: num
+}
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Actions: Increment, Decrement
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Action Creator (Pure function which creates an action)
 
-### Code Splitting
+```javascript
+export const incNumber = (num) => {
+    return {
+        type: 'INCREMENT',
+        payload: num
+    }
+}
+// Reusable, Portable, and Easy to Test
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# 2. Reducer
+Reducers are functions that take the **current state** and an **action** as arugments, and return a **new state** result.
 
-### Analyzing the Bundle Size
+```javascript
+const initialState = 0;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+const changeTheNumber = (state = intialState, action) => {
+  switch (action.type) {
+    case "INCREMENT": return state + action.payload;
+    case "DECREMENT": return state - 1;
+    default: return state;
+  }
+}
+```
 
-### Making a Progressive Web App
+# 3. Store
+The Redux store brings together the **state**, **actions**, and **reducers** that make up your app.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+It's important to note that you'll only have a **single store** in a Redux application.
 
-### Advanced Configuration
+Every Redux store has a **single root** reducer function.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```js
+import {createStore} from "redux";
 
-### Deployment
+const store = createStore(rootReducers);
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+<br/><br/>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# REDUX PRINCIPLES
+
+# 1. Single source of truth
+The global state of the application is stored as an object inside a single store.
+
+# 2. State is Read-Only
+The only way to change the state is to dispatch an action.
+
+# 3. Immutability, One-way data flow, Predictability of Outcome
+
+# 4. Changes are made with pure reducer Functions
